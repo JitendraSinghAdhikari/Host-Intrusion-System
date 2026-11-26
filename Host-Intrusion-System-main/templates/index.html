@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HIDS Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🛡️ Host Intrusion Detection System</h1>
+      </header>
+
+      <section class="panel status-panel">
+        <div class="status-row">
+          <span class="label">Monitoring:</span>
+          <span id="monitoring-status" class="status-indicator">Checking...</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Watch paths:</span>
+          <span id="watch-paths">-</span>
+        </div>
+      </section>
+
+      <section class="controls panel">
+        <button id="start-btn">Start Monitoring</button>
+        <button id="clear-btn" class="secondary">Clear Logs</button>
+        <button id="stop-btn" class="danger">Stop Monitoring</button>
+        <div class="export-actions">
+          <button id="export-json-btn" class="secondary">Export JSON</button>
+          <button id="export-csv-btn" class="secondary">Export CSV</button>
+        </div>
+      </section>
+
+      <section class="panel components-panel">
+        <h2>Monitor Components</h2>
+        <ul id="component-list"><li>Loading...</li></ul>
+      </section>
+
+      <section class="analytics-grid">
+        <section class="panel chart-panel">
+          <h2>Risk Distribution</h2>
+          <canvas id="risk-chart" aria-label="Alert risk distribution chart"></canvas>
+          <div id="risk-legend" class="chart-legend"></div>
+        </section>
+        <section class="panel chart-panel timeline-panel">
+          <h2>Alert Timeline · Last 24 Hours</h2>
+          <canvas id="timeline-chart" aria-label="Alerts per hour during the last 24 hours"></canvas>
+        </section>
+      </section>
+
+      <section class="panel alerts-panel">
+        <div class="section-heading">
+          <div>
+            <h2>Security Alerts</h2>
+            <p class="muted">Select an alert to inspect its event details.</p>
+          </div>
+          <span id="alert-count" class="count-badge">0 alerts</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Process / File</th>
+                <th>PID</th>
+                <th>Parent PID</th>
+                <th>Risk</th>
+                <th>YARA Rule Matched</th>
+                <th>Action Taken</th>
+              </tr>
+            </thead>
+            <tbody id="activity-table-body">
+              <tr><td colspan="7" class="empty-state">Loading alerts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div id="details-backdrop" class="details-backdrop" hidden></div>
+    <aside id="details-sidebar" class="details-sidebar" aria-hidden="true">
+      <div class="sidebar-heading">
+        <div>
+          <p class="eyebrow">ALERT DETAILS</p>
+          <h2 id="detail-title">Select an alert</h2>
+        </div>
+        <button id="close-details-btn" class="icon-button" aria-label="Close alert details">×</button>
+      </div>
+      <div id="detail-content" class="detail-content">
+        <p class="muted">Click a row in the alerts table to see the full event details.</p>
+      </div>
+    </aside>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
